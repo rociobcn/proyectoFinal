@@ -1,4 +1,5 @@
 <template>
+  <div>
   <div class="border-2">
     <h4>Sign In</h4>
     <form @submit.prevent="login">
@@ -6,21 +7,26 @@
         <input type="password" id="password" placeholder="Password" v-model="password">
         <div v-if="errorMsg"><p>{{ errorMsg }}</p></div>
         <button class="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded" type="submit">Log In</button>
-        <button @click="clickMe">clickme</button>
     </form>
+  </div>
+  <div>
+    <p>Don't have an account? <RouterBut :route="route" :buttonText="buttonText" /></p>
+  </div>
   </div>
 </template>
 
-<script>
+<script setup>
 import {ref} from 'vue'
 import { supabase } from '../supabase';
 import { useRouter } from 'vue-router';
+import  RouterBut from '../components/routeBut.vue'
 
 const errorMsg = ref("");
 const password = ref("");
 const email = ref("")
 const router = useRouter()
-
+const route = "/auth/sign-up"
+const buttonText = "Sign In"
 
 const login = async () => {
     try{

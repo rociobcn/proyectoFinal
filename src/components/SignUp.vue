@@ -8,6 +8,8 @@
       <div v-if="errorMsg"><p>{{ errorMsg }}</p></div>
       <button class="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded" type="submit">Register</button>
   </form>
+  <p>Already have an account? <RouterBut :route="route" :buttonText="buttonText" /></p>
+    
 </div>
 </template>
 
@@ -16,13 +18,15 @@ import {ref} from 'vue'
 //import { UserStore } from '../store/user';
 import { supabase } from '../supabase';
 import { useRouter } from 'vue-router';
+import  RouterBut from '../components/routeBut.vue'
 
 const errorMsg = ref("");
 const password = ref("");
 const confirmPassword = ref("")
 const email = ref("")
 const router = useRouter()
-
+const route = "/auth"
+const buttonText = "Sign In"
 
 const register = async () => {
   if (password.value === confirmPassword.value){
@@ -32,7 +36,7 @@ const register = async () => {
         password: password.value,
       });
       if (error) throw error;
-      router.push('/');
+      router.push('/auth');
     } catch (error) {
       errorMsg.value = error.message;
       setTimeout(() => {
