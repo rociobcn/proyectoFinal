@@ -6,6 +6,7 @@
         <input type="password" id="password" placeholder="Password" v-model="password">
         <div v-if="errorMsg"><p>{{ errorMsg }}</p></div>
         <button class="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded" type="submit">Log In</button>
+        <button @click="clickMe">clickme</button>
     </form>
   </div>
 </template>
@@ -19,6 +20,7 @@ const errorMsg = ref("");
 const password = ref("");
 const email = ref("")
 const router = useRouter()
+
 
 const login = async () => {
     try{
