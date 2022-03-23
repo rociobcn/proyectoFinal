@@ -1,16 +1,19 @@
 <template>
   <div>
-  <div class="border-2">
-    <h4>Sign In</h4>
+  <div class="border-2 border-slate-300 rounded-md px-2 py-4 ">
+    <h4 class="text-sky-600 font-bold text-2xl mb-4 flex justify-center">Sign In</h4>
     <form @submit.prevent="login">
-        <input type="email" id="email" placeholder="Email" v-model="email">
-        <input type="password" id="password" placeholder="Password" v-model="password">
-        <div v-if="errorMsg"><p>{{ errorMsg }}</p></div>
-        <button class="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded" type="submit">Log In</button>
+      <div class="flex flex-col">
+          <input type="email" id="email" placeholder="Email" v-model="email" class="border-2 rounded-full pl-3 w-full bg-slate-50 border-slate-300 mb-2 py-1">
+          <input type="password" id="password" placeholder="Password" v-model="password" class="border-2 rounded-full pl-3 w-full bg-slate-50 border-slate-300 py-1"> 
+          <button class="bg-sky-600 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded-full w-full mt-4" type="submit">Log In</button>   
+      </div>
+     
+      <div v-if="errorMsg"><p>{{ errorMsg }}</p></div> 
     </form>
   </div>
-  <div>
-    <p>Don't have an account? <RouterBut :route="route" :buttonText="buttonText" /></p>
+  <div class="mt-10 flex justify-center">
+    <p class="font-bold text-sky-600">Don't have an account? <RouterBut :route="route" :buttonText="buttonText" class="bg-sky-600 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded-full w-full md:text-lg lg:text-xl xl:2xl" /></p>
   </div>
   </div>
 </template>
