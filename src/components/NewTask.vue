@@ -36,7 +36,7 @@ const hideCompleted = ref(false)
 const todos = ref([])
 const editIndex = ref(-1);
 
-//cponer una clase y hacer @click="document.getElementsByClassName("cleanText")[0].value = "" "
+
 function clean(){
     newTodo.value = ""
 }
