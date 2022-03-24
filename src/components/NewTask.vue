@@ -1,6 +1,6 @@
 <template>
     <div class="w-full px-32">
-    <h3 class="text-sky-600 font-bold text-2xl mb-4 mt-12">Welcome Fulanito</h3>
+    <h3 class="text-sky-600 font-bold text-2xl mb-4 mt-12">Welcome <span>{{changeUser()}}</span></h3>
     <form @submit.prevent="addTodo" class="flex">
       <input
         v-model="newTodo"
@@ -29,13 +29,23 @@
 </template>
 
 <script setup>
-import {ref, computed} from 'vue'
+import {ref, computed, onMounted} from 'vue'
+import { supabase } from '../supabase';
+
+
+
 
 const newTodo = ref("") 
 const hideCompleted = ref(false)
 const todos = ref([])
 const editIndex = ref(-1);
 
+const user = supabase.auth.user()
+function changeUser(){
+  const email = user.email
+  const indice = email.indexOf("@")
+  return email.slice(0,indice)
+}
 
 function clean(){
     newTodo.value = ""
@@ -45,8 +55,10 @@ function addTodo() {
         text: newTodo.value,
         done: false
     }
-    todos.value.push(todo);
-    newTodo.value = "";
+    if(newTodo.value.length > 0){
+      todos.value.push(todo);
+      newTodo.value = "";
+    }
 }
 
 function removeTodo(todo) {
