@@ -11,27 +11,37 @@ export const useTaskStore = defineStore("tasks", {
         .from("tasks")
         .select("*")
         .order("id", { ascending: false });
-       return this.tasks = tasks;
+       this.tasks = tasks;
+       return this.tasks;
       
     },
 
     async addTodo(title){
-      const { data, error } = await supabase.from("tasks").insert([
+      // const { data, error } = 
+     console.log(await supabase.from("tasks").insert([
         {
           title: title,
           is_complete: false,
           user_id: useUserStore().user.id
         }
-      ]);
+      ]));
       if(error) throw error;
     },
 
     async editTodo (taskId, editedTask){
+      console.log(taskId, editedTask);
+      try {
+        console.log('editando en la base de datos')
       const { data, error } = await supabase
-      .from("tasks")
-      .update({title: editedTask})
-      .match({id: taskId})
+      .from('tasks')
+      .update({ title: editedTask })
+      .match('id', taskId )
       if(error) throw error;
+      
+      } catch(error) {
+        console.log(error)
+      }
+      
     },
 
     async isComplete (taskId, status){

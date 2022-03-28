@@ -11,6 +11,7 @@
     "@supabase/supabase-js": "^1.31.1",
     "pinia": "^2.0.12",
     "pinia-plugin-persist": "^1.0.0",
+    "sweetalert2": "^11.4.7",
     "vee-validate": "^4.5.10",
     "vue": "^3.2.25",
     "vue-router": "^4.0.14"
