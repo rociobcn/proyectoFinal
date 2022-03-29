@@ -17,29 +17,26 @@ export const useTaskStore = defineStore("tasks", {
     },
 
     async addTodo(title){
-      // const { data, error } = 
-     console.log(await supabase.from("tasks").insert([
+      const { data, error } = await supabase.from("tasks").insert([
         {
           title: title,
           is_complete: false,
           user_id: useUserStore().user.id
         }
-      ]));
+      ]);
       if(error) throw error;
     },
 
     async editTodo (taskId, editedTask){
-      console.log(taskId, editedTask);
+    
       try {
-        console.log('editando en la base de datos')
       const { data, error } = await supabase
       .from('tasks')
       .update({ title: editedTask })
-      .match('id', taskId )
+      .match({'id': taskId})
       if(error) throw error;
-      
       } catch(error) {
-        console.log(error)
+        console.log("i'm here")
       }
       
     },

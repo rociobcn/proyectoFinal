@@ -1,18 +1,45 @@
-    const todo = {
-        text: newTodo.value,
-    
-    } 
-    if(newTodo.value.length > 0){
-      todos.value.push(todo);
-      console.log(newTodo.value)
-      newTodo.value = "";
+<template>
+    <div class="tasks-progress">
+        <span class="progress-value">{{ progress }}%</span>
+        <div class="progress-bar" :style="{width: progress + '%'}"></div>
+    </div>
+</template>
+
+<script setup>
+function progress() {
+			const total = this.tasks.length
+			const done = this.tasks.filter(t => !t.pending).length
+			return Math.round(done / total*100) || 0
+}
+
+</script>
+
+<style>
+    .tasks-progress {
+        position: relative;
+        width: 80%;
+        border: 1px solid #FFF;
+        color: #FFF;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
-    try{
-      await taskStore.allTasks(todo.value.text);
-      console.log(newTodo.value, "esto soy")
-    } catch (error) {
-      errorMsg.value = error.message;
-      setTimeout(() => {
-        errorMsg.value = null;
-      }, 5000);
+    .progress-bar {
+        position: absolute;
+        border-radius: 8px;
+        height: 100%;
+        background-color: #4CAF50;
+        align-self: flex-start;
     }
+    .progress-value {
+        z-index: 1;
+        font-size: 1.5rem;
+    }
+</style>
+
+
+
+
+
