@@ -1,6 +1,6 @@
 <template>
-    <div class="w-full px-32">
-    <h3 class="text-sky-600 font-bold text-2xl mb-4 w-1/4 mt-16">Welcome <span>{{changeUser()}}</span></h3>
+    <div class="w-full px-32 mb-10">
+    <h3 class="text-sky-600 font-bold text-2xl mb-4 w-1/4 mt-16">Welcome <span>{{changeUserName()}}</span></h3>
     <form @submit.prevent="addTodo" class="flex">
       <input
         v-model="newTodo"
@@ -13,7 +13,7 @@
     </form>
     <p v-if="newTodo.length < 4" class="mt-6 text-slate-600 font-bold">{{newTodoErr}}</p>
       <div class="mt-10">
-          <section v-for="(todo, i) in datosTask" :key="'todo' + i" class="border-2 rounded-full pl-3 w-full bg-slate-50 border-slate-300 mb-2 mt-2 flex justify-between py-1">
+          <section v-for="(todo, i) in showTasks" :key="'todo' + i" class="border-2 rounded-full pl-3 w-full bg-slate-50 border-slate-300 mb-2 mt-2 flex justify-between py-1">
                <div class="">
                 <input class=" accent-sky-600"  type="checkbox" v-on:change="completedTask(todo)" v-bind:checked="todo.is_complete">
                 <span class="text-slate-600 text-l ml-2 font-bold" :class="{completed: todo.is_complete}">{{ todo.title }}</span>
@@ -25,14 +25,21 @@
                   
           </section>
       </div>
-      <div class="tasks-progress">
-          <span class="progress-value">{{ progress() }}% completed</span>
-        <div class="progress-bar" :style="{width : progress + '%'}"></div>
+      <div class="w-full bg-gray-200 rounded-full mt-6 flex"> 
+        <div class="bg-sky-600 text-xl font-medium text-white font-bold text-center p-2 leading-none rounded-full" :style="{width : progress() + '%'}">{{ progress() }}% completed</div>
       </div>
-        <button class="bg-sky-600 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded-full w-1/6 mt-6" @click="isCompleted"> {{ isCompleted ? 'Show all' : 'Hide completed' }} </button>
+        <button class="bg-sky-600 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded-full w-1/6 mt-6" @click="isCompleted = !isCompleted"> {{ isCompleted ? 'Show all' : 'Hide completed' }} </button>
         <h5 class="mt-6 text-slate-600 font-bold" v-if="datosTask.length === 0"> There are no tasks to be done</h5>
-
-  
+        
+        <!--
+        <div v-if="isCompleted">
+        <p v-for="(todo2, a) in datosTask" :key="a" >{{todo2.task.title}}</p>
+        </div>
+        <div v-else>
+        <p v-for="(todo3, a) in datosTask" :key="a" >{{todo3.title.filter(todo3.is_complete)}}</p>
+        </div>
+        -->
+        
 <!--
       <div x-data="{showDeleteModal:false}" x-bind:class="{ 'model-open': showDeleteModal }">
         <div x-show="showDeleteModal" tabindex="0"
@@ -65,8 +72,7 @@ import { ref, computed } from 'vue'
 import { supabase } from '../supabase';
 import { useTaskStore } from '../store/task';
 
-
-
+const isCompleted = ref(false)
 const newTodo = ref("") 
 const user = supabase.auth.user()
 const taskStore = useTaskStore()
@@ -100,7 +106,7 @@ async function addTodo(id, edit) {
   }
 }
 
-function changeUser(){
+function changeUserName(){
   const email = user.email
   const indice = email.indexOf("@")
   return email.slice(0,indice)
@@ -124,14 +130,6 @@ async function editTodo(i) {
     newTodo.value = datosTask.value[i].title; 
 }
 
-function isCompleted(){
-  const complete = false
-  if(complete){
-
-  }
-  
-}
-
 
 async function completedTask(todo) {
   const indexId = todo.id
@@ -146,33 +144,12 @@ function progress() {
 			return Math.round(done / total*100) || 0
 }
 
+const showTasks = computed(() => {
+    return isCompleted.value === true ? datosTask.value : datosTask.value.filter(t => t.is_complete === false);
+})
+
 </script>
 
 <style>
- .tasks-progress {
-        position: relative;
-        width: 100%;
-        border: 1px solid rgb(2, 132, 199);
-        color: rgb(255, 255, 255);
-        font-weight: bold;
-        border-radius: 9999px;;
-        margin-bottom: 15px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        height: fit-content;
-        background-color: rgb(2, 132, 199);
-}
-    
-    .progress-bar {
-        position: absolute;
-        border-radius: 8px;
-        height: 100%;
-        background-color: rgb(54, 194, 47);
-        align-self: flex-start;
-    }
-    .progress-value {
-        z-index: 1;
-        font-size: 1.3rem;
-    }
+
 </style>
