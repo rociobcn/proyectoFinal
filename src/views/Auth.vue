@@ -1,7 +1,7 @@
 <template>
  <div class="containerdiv">
    <div>
-     <h2 class="h2">Welcome to the PapperTaskLine App</h2>
+     <h2 class="h2 animate__heartBeat">Welcome to the PapperTaskLine App</h2>
     </div>
     <div class="div-logo">
      <img class="logo" src="../assets/post-azul.jpg" alt="logo">

@@ -1,7 +1,10 @@
 <template>
-    <div class="w-full px-32 mb-10">
-    <h3 class="text-sky-600 font-bold text-2xl mb-4 w-1/4 mt-16">Welcome <span>{{changeUserName()}}</span></h3>
-    <form @submit.prevent="addTodo" class="flex">
+    <div class="w-full px-32 mb-14">
+       
+    <div class="flex justify-between mt-16">
+    <div class="flex flex-col flex-1 w-60 mr-6">
+      <h3 class="text-sky-600 font-bold text-2xl mb-4 w-1/2 mt-16">Welcome <span>{{changeUserName()}}</span></h3>
+     <form @submit.prevent="addTodo" class="flex">
       <input
         v-model="newTodo"
         class="border-2 rounded-full pl-3 w-full bg-slate-50 border-slate-300 hover:border-sky-600 focus:outline-sky-600"
@@ -11,16 +14,22 @@
       <button class="bg-sky-600 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded-full w-1/12 ml-4">Add</button>
       <button class="bg-sky-600 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded-full w-1/12 ml-2" @click="clean">Clean</button>
     </form>
-    <p v-if="newTodo.length < 4" class="mt-6 text-slate-600 font-bold">{{newTodoErr}}</p>
+    <p v-if="newTodo.length < 4" class="mt-6 text-slate-600 font-bold">{{newTodoErr}}</p> 
+    </div>
+    <div class="flex-none justify-center">
+      <v-date-picker title-position="left" color="blue"></v-date-picker>
+    </div>
+    </div>
+    
       <div class="mt-10">
-          <section v-for="(todo, i) in showTasks" :key="'todo' + i" class="border-2 rounded-full pl-3 w-full bg-slate-50 border-slate-300 mb-2 mt-2 flex justify-between py-1">
+          <section v-for="(todo, i) in showTasks" :key="'todo' + i" class="border-2 rounded-full pl-3 w-full bg-slate-50 border-slate-300 mb-2 mt-2 flex justify-between py-1 ">
                <div class="">
                 <input class=" accent-sky-600"  type="checkbox" v-on:change="completedTask(todo)" v-bind:checked="todo.is_complete">
                 <span class="text-slate-600 text-l ml-2 font-bold" :class="{completed: todo.is_complete}">{{ todo.title }}</span>
                </div>
                <div class="">
-                <button @click="removeTodo(todo)" class=" hover:bg-sky-600 text-white font-bold rounded-full w-12">🗑️</button>
                 <button @click="editTodo(i)" class=" hover:bg-sky-600 text-white font-bold rounded-full w-12 mr-2">📝</button>   
+                <button @click="removeTodo(todo)" class=" hover:bg-sky-600 text-white font-bold rounded-full w-12">🗑️</button>
                 </div> 
                   
           </section>
@@ -30,40 +39,6 @@
       </div>
         <button class="bg-sky-600 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded-full w-1/6 mt-6" @click="isCompleted = !isCompleted"> {{ isCompleted ? 'Show all' : 'Hide completed' }} </button>
         <h5 class="mt-6 text-slate-600 font-bold" v-if="datosTask.length === 0"> There are no tasks to be done</h5>
-        
-        <!--
-        <div v-if="isCompleted">
-        <p v-for="(todo2, a) in datosTask" :key="a" >{{todo2.task.title}}</p>
-        </div>
-        <div v-else>
-        <p v-for="(todo3, a) in datosTask" :key="a" >{{todo3.title.filter(todo3.is_complete)}}</p>
-        </div>
-        -->
-        
-<!--
-      <div x-data="{showDeleteModal:false}" x-bind:class="{ 'model-open': showDeleteModal }">
-        <div x-show="showDeleteModal" tabindex="0"
-                class="z-40 overflow-auto left-0 top-0 bottom-0 right-0 w-full h-full fixed">
-                <div @click.away="showDeleteModal = false" class="z-50 relative p-3 mx-auto my-0 max-w-full"
-                    style="width: 500px;">
-                    <div class="bg-white rounded shadow-lg border flex flex-col overflow-hidden px-10 py-10">
-                        <div class="text-center">
-                        </div>
-                        <div class="text-center py-6 text-2xl text-gray-700">Are you sure ?</div>
-                        <div class="flex justify-center mb-3">
-                            <button @click={}
-                                class="bg-gray-300 text-gray-900 rounded hover:bg-gray-200 px-6 py-2 focus:outline-none mx-1">No</button>
-                            <button
-                                class="bg-red-500 text-gray-200 rounded hover:bg-red-400 px-6 py-2 focus:outline-none mx-1">Yes</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="z-40 overflow-auto left-0 top-0 bottom-0 right-0 w-full h-full fixed bg-black opacity-50"></div>
-              </div> 
-      </div>
-     -->
-
-
   </div>
 </template>
 
@@ -72,6 +47,7 @@ import { ref, computed } from 'vue'
 import { supabase } from '../supabase';
 import { useTaskStore } from '../store/task';
 
+const newTodoErr = ref("Your task must have more than four characters!!!")
 const isCompleted = ref(false)
 const newTodo = ref("") 
 const user = supabase.auth.user()
@@ -90,19 +66,25 @@ getAllTasks()
 async function addTodo(id, edit) {
   if(isEditing.value === false) {
     await taskStore.addTodo(newTodo.value);
-    await getAllTasks()
+    await getAllTasks() 
     newTodo.value = "";
+
+      Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      iconColor: "#3085d6",
+      title: 'Fantastic!',
+      text: "You have one more task!",
+      showConfirmButton: false,
+      timer: 1500,
+      position: "center"
+      }) 
+    
   } else {
-    let text = "Are you sure of this action?";
-    if (confirm(text) == true) {
     await taskStore.editTodo(editingId.value, newTodo.value)
     await getAllTasks()
     isEditing.value = false;
     newTodo.value = ""
-    } else{
-      isEditing.value = false;
-      newTodo.value = ""
-    }
   }
 }
 
@@ -117,11 +99,36 @@ function clean(){
 }
 
 async function removeTodo(todo) {
-  let text = "Are you sure of this action?";
-  if (confirm(text) == true) {
+   
+  Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'warning',
+  iconColor: "red",
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, delete it!',
+  showClass: {
+    popup: 'animate__animated animate__fadeInDown'
+  },
+
+}).then(async (result) => {
+  if (result.isConfirmed) {
   await taskStore.removeTodo(todo.id);
-  await getAllTasks()
+    Swal.fire({
+      title: 'Deleted!',
+      text: "Your file has been deleted.",
+      icon: 'success',
+      iconColor: "blue",
+      confirmButtonColor: '#3085d6',
+      hideClass: {
+    popup: 'animate__animated animate__fadeOutUp'
+    }
+    }) 
+    await getAllTasks()
   }
+})
 }
 
 async function editTodo(i) {

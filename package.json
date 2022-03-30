@@ -9,12 +9,15 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^1.31.1",
+    "animate.css": "^4.1.1",
     "pinia": "^2.0.12",
     "pinia-plugin-persist": "^1.0.0",
-    "sweetalert2": "^11.4.7",
+    "sweetalert2": "^11.4.8",
+    "v-calendar": "^3.0.0-alpha.8",
     "vee-validate": "^4.5.10",
     "vue": "^3.2.25",
-    "vue-router": "^4.0.14"
+    "vue-router": "^4.0.14",
+    "vue-sweetalert2": "^5.0.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.2.0",
