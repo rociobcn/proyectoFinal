@@ -24,7 +24,7 @@ import {ref} from 'vue'
 //import { UserStore } from '../store/user';
 import { supabase } from '../supabase';
 import { useRouter } from 'vue-router';
-import  RouterBut from './RouteBut.vue'
+import  RouterBut from '../components/RouteBut.vue'
 import { useUserStore } from '../store/user';
 import { storeToRefs } from 'pinia';
 
