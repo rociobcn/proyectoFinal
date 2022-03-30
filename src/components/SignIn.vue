@@ -22,7 +22,7 @@
 import {ref} from 'vue'
 import { supabase } from '../supabase';
 import { useRouter } from 'vue-router';
-import  RouterBut from '../components/routeBut.vue';
+import  RouterBut from './components/routeBut.vue';
 import { useUserStore } from '../store/user';
 import { storeToRefs } from 'pinia';
 
