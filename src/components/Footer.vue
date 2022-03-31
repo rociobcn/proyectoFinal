@@ -1,6 +1,6 @@
 <template>
-  <div class="flex justify-between bg-sky-600 py-4 px-4">
-      <div class="text-white font-bold text-xs">
+  <div class="flex justify-between bg-sky-600 py-4 px-4 h-a">
+      <div class="hidden sm:block text-white font-bold text-xs">
         <p>About Me</p>
         <p>Contact</p>
         <p>Blog</p>
