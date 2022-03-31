@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="">
   <div class="border-2 border-slate-300 rounded-md px-2 py-4">
   <h4 class="text-sky-600 font-bold text-2xl mb-4 flex justify-center">Sign Up</h4>
   <form @submit.prevent="signUp">
@@ -13,7 +13,7 @@
   </form>
   </div>
   <div class="mt-10 flex justify-center">                                                          
-    <p class="font-bold text-sky-600">Already have an account? <RouterBut :route="route" :buttonText="buttonText" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 bg-sky-600 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded-full w-full md:text-lg lg:text-xl xl:2xl" /></p>
+    <p class="font-bold text-sky-600 mb-16">Already have an account? <RouterBut :route="route" :buttonText="buttonText" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 bg-sky-600 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded-full w-full md:text-lg lg:text-xl xl:2xl" /></p>
   </div>
 </div>
 
