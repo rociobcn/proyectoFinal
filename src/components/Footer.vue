@@ -6,8 +6,8 @@
         <p>Blog</p>
         <p>Testimonials</p>
       </div>
-      <div class="flex flex-col justify-center text-white font-bold text-sm">
-        <h6 class=" flex justify-center mb-3">©️ ROCIO RAMOS, DEVELOPER FRONT-END</h6>
+      <div class="flex flex-col justify-center text-white font-bold text-xs sm:text-sm">
+        <h6 class=" flex justify-center mb-3 mr-1 sm:mr-">©️ ROCIO RAMOS, DEVELOPER FRONT-END</h6>
 
         <div class="flex justify-center">
           <img src="../assets/insta.jpg" alt="instagram" class="w-7 mr-4">

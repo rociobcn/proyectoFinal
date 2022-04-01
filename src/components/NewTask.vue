@@ -35,13 +35,13 @@
       </div>
     </div>
 
-    <div class="mt-10 h-96 overflow-y-auto">
+    <div class="mt-10 overflow-y-auto {datosTask.length < 4 : h-40 ? h-96}" >
       <section
         v-for="(todo, i) in showTasks"
         :key="'todo' + i"
         class="border-2 rounded-full pl-3 w-full bg-slate-50 border-slate-300 mb-2 mt-2 flex justify-between py-1"
       >
-        <div class="">
+        <div class="w-3/4 truncate">
           <input
             class="accent-sky-600"
             type="checkbox"
@@ -49,7 +49,7 @@
             v-bind:checked="todo.is_complete"
           />
           <span
-            class="text-slate-600 text-l ml-2 font-bold"
+            class="text-slate-600 text-l ml-2 font-bold w-40 text-ellipsis overflow-hidden"
             :class="{ completed: todo.is_complete }"
             >{{ todo.title }}</span
           >
